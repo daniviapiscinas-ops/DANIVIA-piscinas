@@ -1,21 +1,1072 @@
-<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>DANIVIA PISCINAS — Gestión de Piscinas</title> <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"> <style> :root { --ocean: #003d5b; --deep: #001f30; --teal: #0077a8; --aqua: #00b4d8; --foam: #90e0ef; --white: #f0f8ff; --accent: #00f5d4; --warn: #ffb703; --danger: #ef233c; --ok: #06d6a0; --card: rgba(0,61,91,0.55); --glass: rgba(0,119,168,0.15); --border: rgba(0,180,216,0.25); } * { margin:0; padding:0; box-sizing:border-box; } body { font-family: 'DM Sans', sans-serif; background: var(--deep); color: var(--white); min-height: 100vh; overflow-x: hidden; } body::before { content:''; position:fixed; inset:0; z-index:0; background: radial-gradient(ellipse 80% 60% at 20% 0%, rgba(0,119,168,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0,245,212,0.12) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 60% 40%, rgba(0,61,91,0.8) 0%, transparent 70%); animation: bgShift 12s ease-in-out infinite alternate; } @keyframes bgShift { 0% { opacity:1; transform:scale(1); } 100% { opacity:.85; transform:scale(1.04); } } body::after { content:''; position:fixed; bottom:0; left:0; right:0; height:180px; z-index:0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180'%3E%3Cpath fill='%23003d5b' fill-opacity='0.4' d='M0,96L48,106.7C96,117,192,139,288,133.3C384,128,480,96,576,85.3C672,75,768,85,864,101.3C960,117,1056,139,1152,133.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom; background-size: cover; opacity:.6; animation: waveFlow 8s ease-in-out infinite alternate; } @keyframes waveFlow { 0% { transform:translateX(-20px) scaleY(1); } 100% { transform:translateX(20px) scaleY(1.08); } } #app { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 20px 80px; } header { display:flex; align-items:center; justify-content:space-between; padding:28px 0 20px; border-bottom: 1px solid var(--border); margin-bottom:36px; } .logo { display:flex; align-items:center; gap:14px; } .logo-icon { width:48px; height:48px; border-radius:14px; background: linear-gradient(135deg, var(--aqua), var(--accent)); display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow: 0 0 24px rgba(0,245,212,0.4); } .logo-text h1 { font-family:'Bebas Neue', sans-serif; font-size:2rem; letter-spacing:3px; color:var(--white); line-height:1; } .logo-text span { font-size:.72rem; color:var(--foam); letter-spacing:2px; text-transform:uppercase; } .header-actions { display:flex; gap:10px; } .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:10px; border:none; font-family:'DM Sans', sans-serif; font-size:.875rem; font-weight:600; cursor:pointer; transition:all .2s ease; text-decoration:none; } .btn-primary { background: linear-gradient(135deg, var(--aqua), var(--teal)); color:#fff; box-shadow: 0 4px 16px rgba(0,180,216,0.35); } .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,180,216,0.5); } .btn-ghost { background:var(--glass); border:1px solid var(--border); color:var(--foam); backdrop-filter:blur(8px); } .btn-ghost:hover { background:rgba(0,119,168,0.3); color:var(--white); } .btn-sm { padding:7px 14px; font-size:.8rem; border-radius:8px; } .btn-danger { background:rgba(239,35,60,0.2); border:1px solid rgba(239,35,60,0.4); color:#ff6b7a; } .btn-danger:hover { background:rgba(239,35,60,0.35); } .btn-success { background:linear-gradient(135deg,var(--ok),#059669); color:#fff; } .btn-warn { background:linear-gradient(135deg,var(--warn),#e09000); color:#001f30; } .tabs { display:flex; gap:4px; margin-bottom:28px; background:var(--glass); padding:5px; border-radius:14px;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DANIVIA PISCINAS — Gestión de Piscinas</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #003d5b;
+    --deep: #001f30;
+    --teal: #0077a8;
+    --aqua: #00b4d8;
+    --foam: #90e0ef;
+    --white: #f0f8ff;
+    --accent: #00f5d4;
+    --warn: #ffb703;
+    --danger: #ef233c;
+    --ok: #06d6a0;
+    --card: rgba(0,61,91,0.55);
+    --glass: rgba(0,119,168,0.15);
+    --border: rgba(0,180,216,0.25);
+  }
 
-border:1px solid var(--border); backdrop-filter:blur(10px); width:fit-content; } .tab { padding:9px 22px; border-radius:10px; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:.875rem; font-weight:500; color:var(--foam); background:transparent; transition:all .2s; } .tab.active { background:linear-gradient(135deg,var(--aqua),var(--teal)); color:#fff; box-shadow:0 2px 12px rgba(0,180,216,0.4); } .card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; backdrop-filter:blur(12px); transition:all .25s ease; } .card:hover { border-color:rgba(0,180,216,0.45); box-shadow:0 8px 32px rgba(0,180,216,0.12); } .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; } .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; } .client-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; } .client-card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:20px; cursor:pointer; transition:all .25s ease; position:relative; overflow:hidden; } .client-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--aqua),var(--accent)); transform:scaleX(0); transform-origin:left; transition:transform .3s ease; } .client-card:hover::before { transform:scaleX(1); } .client-card:hover { border-color:rgba(0,180,216,0.5); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,61,91,0.5); } .client-card.selected { border-color:var(--aqua); background:rgba(0,119,168,0.25); } .client-avatar { width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg,var(--teal),var(--ocean)); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:var(--foam); margin-bottom:14px; border:2px solid var(--border); } .client-name { font-weight:600; font-size:1rem; margin-bottom:4px; } .client-info { font-size:.78rem; color:var(--foam); display:flex; flex-direction:column; gap:3px; } .client-badge { display:inline-flex; align-items:center; gap:5px; font-size:.7rem; padding:3px 9px; border-radius:20px; margin-top:10px; font-family:'DM Mono',monospace; letter-spacing:.5px; } .badge-ok { background:rgba(6,214,160,0.18); color:var(--ok); border:1px solid rgba(6,214,160,0.35); } .badge-warn{ background:rgba(255,183,3,0.18); color:var(--warn); border:1px solid rgba(255,183,3,0.35); } .badge-danger{ background:rgba(239,35,60,0.18); color:var(--danger); border:1px solid rgba(239,35,60,0.35); } .form-group { margin-bottom:16px; } label { display:block; font-size:.8rem; font-weight:600; color:var(--foam); margin-bottom:7px; letter-spacing:.5px; text-transform:uppercase; } input, select, textarea { width:100%; padding:11px 15px; border-radius:10px; background:rgba(0,31,48,0.7); border:1px solid var(--border); color:var(--white); font-family:'DM Sans',sans-serif; font-size:.9rem; transition:all .2s; outline:none; backdrop-filter:blur(6px); } input:focus, select:focus, textarea:focus { border-color:var(--aqua); box-shadow:0 0 0 3px rgba(0,180,216,0.18); } input::placeholder { color:rgba(144,224,239,0.4); } select option { background:var(--ocean); } textarea { resize:vertical; min-height:90px; } .param-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:end; padding:14px; border-radius:12px; background:rgba(0,31,48,0.4); border:1px solid var(--border); margin-bottom:10px; } .param-label { font-size:.8rem; font-weight:600; color:var(--foam); text-transform:uppercase; letter-spacing:.5px; } .param-range { font-size:.7rem; color:rgba(144,224,239,0.6); font-family:'DM Mono',monospace; } .param-status { display:flex; align-items:center; gap:6px; font-size:.78rem; font-weight:600; } .dot { width:8px; height:8px; border-radius:50%; } .dot-ok { background:var(--ok); box-shadow:0 0 8px var(--ok); } .dot-warn { background:var(--warn); box-shadow:0 0 8px var(--warn); } .dot-danger { background:var(--danger); box-shadow:0 0 8px var(--danger); } .history-table { width:100%;
+  * { margin:0; padding:0; box-sizing:border-box; }
 
-border-collapse:collapse; font-size:.82rem; } .history-table th { padding:10px 14px; text-align:left; font-family:'DM Mono',monospace; font-size:.72rem; letter-spacing:.8px; text-transform:uppercase; color:var(--foam); border-bottom:1px solid var(--border); } .history-table td { padding:12px 14px; border-bottom:1px solid rgba(0,180,216,0.08); } .history-table tr:last-child td { border-bottom:none; } .history-table tr:hover td { background:rgba(0,119,168,0.1); } .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:6px; } .stat-value { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:1px; line-height:1; } .stat-label { font-size:.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--foam); } .modal-overlay { position:fixed; inset:0; z-index:100; background:rgba(0,10,20,0.75); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .25s; } .modal-overlay.open { opacity:1; pointer-events:all; } .modal { background: linear-gradient(160deg, #012a40, #001523); border:1px solid var(--border); border-radius:22px; width:100%; max-width:560px; max-height:90vh; overflow-y:auto; padding:30px; position:relative; transform:translateY(20px); transition:transform .25s; box-shadow:0 24px 80px rgba(0,0,0,0.6); } .modal-overlay.open .modal { transform:translateY(0); } .modal h2 { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:2px; margin-bottom:24px; color:var(--foam); } .modal-close { position:absolute; top:18px; right:18px; background:var(--glass); border:1px solid var(--border); color:var(--foam); width:34px; height:34px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem; transition:all .2s; } .modal-close:hover { background:rgba(239,35,60,0.2); color:#ff6b7a; } .empty { text-align:center; padding:60px 30px; color:rgba(144,224,239,0.5); } .empty-icon { font-size:3.5rem; margin-bottom:16px; } .empty h3 { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; margin-bottom:8px; color:var(--foam); } .empty p { font-size:.875rem; line-height:1.6; } .notif { position:fixed; top:24px; right:24px; z-index:200; padding:14px 22px; border-radius:12px; background:linear-gradient(135deg,var(--ok),#059669); color:#fff; font-weight:600; font-size:.875rem; box-shadow:0 8px 24px rgba(6,214,160,0.4); transform:translateX(120%); transition:transform .3s ease; display:flex; align-items:center; gap:10px; } .notif.show { transform:translateX(0); } .notif.error { background:linear-gradient(135deg,var(--danger),#b00020); box-shadow:0 8px 24px rgba(239,35,60,0.4); } .report-box { background:rgba(0,31,48,0.8); border:1px solid var(--border); border-radius:14px; padding:22px; font-family:'DM Mono',monospace; font-size:.82rem; line-height:1.8; white-space:pre-wrap; color:var(--foam); } ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:var(--teal); border-radius:3px; } @media(max-width:640px) { .grid-2, .grid-3 { grid-template-columns:1fr; } .param-row { grid-template-columns:1fr 1fr; } header { flex-direction:column; gap:16px; align-items:flex-start; } } .section-title { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:2px; color:var(--foam); margin-bottom:18px; display:flex; align-items:center; gap:10px; } .section-title::after { content:''; flex:1; height:1px; background:var(--border); } .tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:.7rem; font-family:'DM Mono',monospace; } input[type=number]::-webkit-inner-spin-button { opacity:.4; } /* Sync indicator */ .sync-dot { width:8px; height:8px; border-radius:50%; background:var(--ok); box-shadow:0 0 8px var(--ok); display:inline-block; margin-right:6px; animation: pulse 2s infinite; } @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } } </style> </head> <body>
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-<div id="app"> <header> <div class="logo"> <div class="logo-icon">🌊</div> <div class="logo-text"> <h1>DANIVIA PISCINAS</h1> <span><span class="sync-dot"></span>Sincronizado en la nube</span> </div> </div> <div class="header-actions"> <button class="btn btn-ghost btn-sm" onclick="openModal('clientModal')">＋ Nuevo Cliente</button> <button class="btn btn-primary btn-sm" onclick="openModal('measureModal')">📊 Registrar Parámetros</button> </div> </header> <div class="tabs"> <button class="tab active" onclick="showTab('dashboard',this)">🏠 Panel</button> <button class="tab" onclick="showTab('clients',this)">👥 Clientes</button> <button class="tab" onclick="showTab('history',this)">📋 Historial</button> <button class="tab" onclick="showTab('reports',this)">📧 Informes</button> </div> <!-- DASHBOARD --> <div id="tab-dashboard"> <div class="grid-3" style="margin-bottom:24px" id="statsRow"></div> <div class="section-title">Últimas Mediciones</div> <div id="recentMeasures"></div> </div> <!-- CLIENTS --> <div id="tab-clients" style="display:none"> <div class="section-title">Clientes Registrados</div> <div class="client-grid" id="clientGrid"></div> </div> <!-- HISTORY --> <div id="tab-history" style="display:none"> <div style="display:flex;gap:12px;margin-bottom:20px;align-items:center;flex-wrap:wrap"> <select id="historyFilter" style="width:220px" onchange="renderHistory()"> <option value="">— Todos los clientes —</option> </select> <button class="btn btn-ghost btn-sm" onclick="renderHistory()">🔄 Actualizar</button> </div> <div class="card"> <div style="overflow-x:auto" id="historyTable"></div> </div> </div> <!-- REPORTS --> <div id="tab-reports" style="display:none"> <div class="grid-2" style="gap:24px"> <div> <div class="section-title">Generar Informe</div> <div class="card"> <div class="form-group"> <label>Cliente</label> <select id="reportClient" onchange="generateReport()"> <option value="">— Selecciona un cliente —</option> </select> </div> <div class="form-group"> <label>Período</label> <select id="reportPeriod" onchange="generateReport()"> <option value="1">Última medición</option> <option value="5" selected>Últimas 5 mediciones</option> <option value="10">Últimas 10 mediciones</option> <option value="all">Todas</option> </select> </div> <div class="form-group"> <label>Nota adicional</label> <textarea id="reportNote" placeholder="Observaciones o recomendaciones..."></textarea> </div> <div style="display:flex;gap:10px;flex-wrap:wrap"> <button class="btn btn-primary" onclick="sendEmail()">📧 Enviar por Email</button> <button class="btn btn-ghost" onclick="copyReport()">📋 Copiar Informe</button> <button class="btn btn-warn" onclick="printReport()">🖨️ Imprimir</button> </div> </div> </div> <div> <div class="section-title">Vista Previa</div> <div class="report-box" id="reportPreview">Selecciona un cliente para ver el informe...</div> </div> </div> </div> </div> <!-- ADD CLIENT --> <div class="modal-overlay" id="clientModal"> <div class="modal"> <button class="modal-close" onclick="closeModal('clientModal')">✕</button> <h2>➕ Nuevo Cliente</h2> <div class="grid-2"> <div class="form-group"> <label>Nombre Completo *</label> <input id="cName" type="text" placeholder="Juan García"> </div> <div class="form-group"> <label>Teléfono</label> <input id="cPhone" type="tel" placeholder="+34 600 000 000"> </div> </div> <div class="form-group"> <label>Email *</label> <input id="cEmail" type="email" placeholder="cliente@ejemplo.com"> </div> <div class="grid-2"> <div class="form-group"> <label>Dirección / Instalación</label> <input id="cAddress" type="text" placeholder="Calle, nº, ciudad"> </div> <div class="form-group"> <label>Tipo de Piscina</label> <select id="cType"> <option>Residencial</option> <option>Comunitaria</option> <option>Comercial</option> <option>Hotel / SPA</option> <option>Municipal</option> </select> </div> </div> <div class="form-group"> <label>Capacidad (m³)</label> <input id="cVolume" type="number" placeholder="50"> </div> <div class="form-group"> <label>Notas</label> <textarea id="cNotes" placeholder="Observaciones
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, rgba(0,119,168,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0,245,212,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 60% 40%, rgba(0,61,91,0.8) 0%, transparent 70%);
+    animation: bgShift 12s ease-in-out infinite alternate;
+  }
+  @keyframes bgShift {
+    0%   { opacity:1; transform:scale(1); }
+    100% { opacity:.85; transform:scale(1.04); }
+  }
 
-generales..."></textarea> </div> <button class="btn btn-primary" style="width:100%" onclick="saveClient()">Guardar Cliente</button> </div> </div> <!-- ADD MEASUREMENT --> <div class="modal-overlay" id="measureModal"> <div class="modal" style="max-width:620px"> <button class="modal-close" onclick="closeModal('measureModal')">✕</button> <h2>📊 Registro de Parámetros</h2> <div class="form-group"> <label>Cliente *</label> <select id="mClient"> <option value="">— Selecciona cliente —</option> </select> </div> <div class="form-group"> <label>Fecha y Hora</label> <input id="mDate" type="datetime-local"> </div> <div style="margin:18px 0 10px"> <div class="section-title" style="font-size:1rem">Parámetros Físico-Químicos</div> </div> <div class="param-row"> <div> <div class="param-label">pH</div> <div class="param-range">Óptimo: 7.2 – 7.6</div> </div> <input type="number" id="p-ph" step="0.1" min="0" max="14" placeholder="7.4" oninput="updateStatus('ph',this.value,7.2,7.6,6.8,8.0)"> <div id="s-ph" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Cloro Libre (ppm)</div> <div class="param-range">Óptimo: 1.0 – 3.0</div> </div> <input type="number" id="p-cl" step="0.1" min="0" placeholder="2.0" oninput="updateStatus('cl',this.value,1.0,3.0,0.5,5.0)"> <div id="s-cl" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Cloro Total (ppm)</div> <div class="param-range">Óptimo: 1.0 – 3.0</div> </div> <input type="number" id="p-ct" step="0.1" min="0" placeholder="2.0" oninput="updateStatus('ct',this.value,1.0,3.0,0.5,5.0)"> <div id="s-ct" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Alcalinidad (ppm)</div> <div class="param-range">Óptimo: 80 – 120</div> </div> <input type="number" id="p-alk" step="1" min="0" placeholder="100" oninput="updateStatus('alk',this.value,80,120,60,180)"> <div id="s-alk" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Dureza Cálcica (ppm)</div> <div class="param-range">Óptimo: 200 – 400</div> </div> <input type="number" id="p-hard" step="5" min="0" placeholder="250" oninput="updateStatus('hard',this.value,200,400,150,600)"> <div id="s-hard" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Estabilizador / CYA (ppm)</div> <div class="param-range">Óptimo: 30 – 50</div> </div> <input type="number" id="p-cya" step="1" min="0" placeholder="40" oninput="updateStatus('cya',this.value,30,50,20,100)"> <div id="s-cya" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Temperatura (°C)</div> <div class="param-range">Óptimo: 24 – 30</div> </div> <input type="number" id="p-temp" step="0.5" placeholder="26" oninput="updateStatus('temp',this.value,24,30,10,40)"> <div id="s-temp" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="param-row"> <div> <div class="param-label">Sal (ppm) <span class="tag" style="background:var(--glass);color:var(--foam)">Opcional</span></div> <div class="param-range">Óptimo: 3000 – 4000</div> </div> <input type="number" id="p-salt" step="50" min="0" placeholder="3500" oninput="updateStatus('salt',this.value,3000,4000,2500,5000)"> <div id="s-salt" class="param-status"><span class="dot"></span><span>—</span></div> </div> <div class="form-group" style="margin-top:16px"> <label>Aspecto del Agua</label> <select id="p-look"> <option value="Cristalina">💎 Cristalina</option> <option value="Ligeramente turbia">🌫️ Ligeramente turbia</option> <option value="Turbia">🌫️ Turbia</option> <option value="Verde / Algas">🟢 Verde / Algas</option> <option value="Marrón / Óxido">🟤 Marrón / Óxido</option> </select> </div> <div class="form-group"> <label>Observaciones</label> <textarea id="p-notes"
+  body::after {
+    content:'';
+    position:fixed; bottom:0; left:0; right:0; height:180px; z-index:0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180'%3E%3Cpath fill='%23003d5b' fill-opacity='0.4' d='M0,96L48,106.7C96,117,192,139,288,133.3C384,128,480,96,576,85.3C672,75,768,85,864,101.3C960,117,1056,139,1152,133.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+    opacity:.6;
+    animation: waveFlow 8s ease-in-out infinite alternate;
+  }
+  @keyframes waveFlow {
+    0%   { transform:translateX(-20px) scaleY(1); }
+    100% { transform:translateX(20px)  scaleY(1.08); }
+  }
 
-placeholder="Tratamientos aplicados, incidencias..."></textarea> </div> <button class="btn btn-primary" style="width:100%" onclick="saveMeasure()">💾 Guardar Medición</button> </div> </div> <!-- VIEW CLIENT DETAIL --> <div class="modal-overlay" id="clientDetailModal"> <div class="modal" style="max-width:660px"> <button class="modal-close" onclick="closeModal('clientDetailModal')">✕</button> <div id="clientDetailContent"></div> </div> </div> <!-- NOTIFICATION --> <div class="notif" id="notif">✅ <span id="notifMsg">Guardado</span></div> <script type="module"> // ============================================================ // FIREBASE SETUP // ============================================================ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = { apiKey: "AIzaSyDzxD4liz8v97E9EYjdK3nTyEzXjEuhdUg", authDomain: "registro-danivia.firebaseapp.com", projectId: "registro-danivia", storageBucket: "registro-danivia.firebasestorage.app", messagingSenderId: "818166293124", appId: "1:818166293124:web:4b66a909f25702712558d1" }; const app = initializeApp(firebaseConfig); const db = getFirestore(app); // ============================================================ // GLOBAL STATE — kept in sync with Firestore in real time // ============================================================ let state = { clients: [], measures: [] }; let currentTab = 'dashboard'; // Real-time listener for clients onSnapshot(query(collection(db,'clients'), orderBy('createdAt','asc')), snap => { state.clients = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderAll(); }); // Real-time listener for measures onSnapshot(query(collection(db,'measures'), orderBy('date','asc')), snap => { state.measures = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderAll(); }); function renderAll(){ renderDashboard(); if(currentTab==='clients') renderClients(); if(currentTab==='history') renderHistory(); if(currentTab==='reports') populateReportClients(); } // ============================================================ // UTILS // ============================================================ function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); } function notify(msg,type=''){ const n=document.getElementById('notif'); document.getElementById('notifMsg').textContent=msg; n.className='notif'+(type?' '+type:''); n.classList.add('show'); setTimeout(()=>n.classList.remove('show'),3200); } // ============================================================ // MODALS // ============================================================ window.openModal = function(id){ if(id==='measureModal') populateMeasureClients(); if(id==='measureModal'){ const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); document.getElementById('mDate').value=now.toISOString().slice(0,16); } document.getElementById(id).classList.add('open'); }; window.closeModal = function(id){ document.getElementById(id).classList.remove('open'); }; document.querySelectorAll('.modal-overlay').forEach(el=>{ el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); }); }); // ============================================================ // TABS // ============================================================ window.showTab = function(name,btn){ ['dashboard','clients','history','reports'].forEach(t=>{ document.getElementById('tab-'+t).style.display=(t===name?'block':'none'); }); document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); currentTab = name; renderAll(); }; // ============================================================ // CLIENTS // ============================================================ window.saveClient = async function(){ const name=document.getElementById('cName').value.trim(); const email=document.getElementById('cEmail').value.trim(); if(!name||!email){
+  #app { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 20px 80px; }
 
-notify('Nombre y email son obligatorios','error'); return; } await addDoc(collection(db,'clients'), { name, email, phone: document.getElementById('cPhone').value.trim(), address: document.getElementById('cAddress').value.trim(), type: document.getElementById('cType').value, volume: document.getElementById('cVolume').value, notes: document.getElementById('cNotes').value.trim(), createdAt: new Date().toISOString() }); closeModal('clientModal'); ['cName','cEmail','cPhone','cAddress','cVolume','cNotes'].forEach(id=>{ document.getElementById(id).value=''; }); document.getElementById('cType').selectedIndex=0; notify('Cliente registrado correctamente ✅'); }; function renderClients(){ const clients=state.clients; const grid=document.getElementById('clientGrid'); if(!clients.length){ grid.innerHTML=<div class="empty" style="grid-column:1/-1"> <div class="empty-icon">👤</div> <h3>Sin Clientes</h3> <p>Añade tu primer cliente con el botón "Nuevo Cliente"</p> </div>; return; } grid.innerHTML=clients.map(c=>{ const measures=state.measures.filter(m=>m.clientId===c.id); const last=measures[measures.length-1]; const status=last?getOverallStatus(last):'sin-datos'; const badge=status==='ok'?'badge-ok':status==='warn'?'badge-warn':status==='danger'?'badge-danger':''; const label=status==='ok'?'✅ En Rango':status==='warn'?'⚠️ Revisar':status==='danger'?'❌ Fuera de Rango':'📋 Sin mediciones'; return <div class="client-card" onclick="showClientDetail('${c.id}')"> <div class="client-avatar">${c.name.charAt(0).toUpperCase()}</div> <div class="client-name">${c.name}</div> <div class="client-info"> <span>📧 ${c.email}</span> ${c.phone?<span>📱 ${c.phone}</span>:''} ${c.address?<span>📍 ${c.address}</span>:''} <span>🏊 ${c.type} ${c.volume?'('+c.volume+' m³)':''}</span> <span>📊 ${measures.length} mediciones</span> </div> <span class="client-badge ${badge}">${label}</span> </div>; }).join(''); } window.showClientDetail = function(id){ const client=state.clients.find(c=>c.id===id); if(!client) return; const measures=state.measures.filter(m=>m.clientId===id).slice(-5).reverse(); const last=measures[0]; document.getElementById('clientDetailContent').innerHTML= <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px"> <div class="client-avatar" style="width:60px;height:60px;font-size:1.6rem">${client.name.charAt(0)}</div> <div> <div style="font-weight:700;font-size:1.2rem">${client.name}</div> <div style="font-size:.8rem;color:var(--foam)">${client.type} ${client.volume?'· '+client.volume+' m³':''}</div> </div> <div style="margin-left:auto;display:flex;gap:8px"> <button class="btn btn-danger btn-sm" onclick="deleteClient('${id}')">🗑️ Eliminar</button> <button class="btn btn-primary btn-sm" onclick="closeModal('clientDetailModal');setTimeout(()=>{document.getElementById('mClient').value='${id}';openModal('measureModal')},100)">+ Medición</button> </div> </div> <div class="grid-2" style="margin-bottom:20px"> <div><label>Email</label><div style="font-size:.9rem;padding:8px 0">${client.email}</div></div> <div><label>Teléfono</label><div style="font-size:.9rem;padding:8px 0">${client.phone||'—'}</div></div> <div><label>Dirección</label><div style="font-size:.9rem;padding:8px 0">${client.address||'—'}</div></div> <div><label>Notas</label><div style="font-size:.9rem;padding:8px 0">${client.notes||'—'}</div></div> </div> <div class="section-title" style="font-size:1rem">Últimas Mediciones</div> ${last ? renderMeasureCards(measures) : '<div class="empty"><div class="empty-icon">📊</div><p>No hay mediciones registradas</p></div>'} ; openModal('clientDetailModal'); }; window.deleteClient = async function(id){ if(!confirm('¿Seguro que quieres eliminar este cliente y todas sus mediciones?')) return; await deleteDoc(doc(db,'clients',id)); const measures=state.measures.filter(m=>m.clientId===id); for(const m of measures){ await deleteDoc(doc(db,'measures',m.id)); } closeModal('clientDetailModal'); notify('Cliente eliminado'); }; // ============================================================ // MEASURES //
+  header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 0 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom:36px;
+  }
+  .logo { display:flex; align-items:center; gap:14px; }
+  .logo-icon {
+    width:48px; height:48px; border-radius:14px;
+    background: linear-gradient(135deg, var(--aqua), var(--accent));
+    display:flex; align-items:center; justify-content:center; font-size:24px;
+    box-shadow: 0 0 24px rgba(0,245,212,0.4);
+  }
+  .logo-text h1 {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:2rem; letter-spacing:3px; color:var(--white);
+    line-height:1;
+  }
+  .logo-text span { font-size:.72rem; color:var(--foam); letter-spacing:2px; text-transform:uppercase; }
 
-============================================================ const PARAMS=[ {key:'ph', label:'pH', unit:'', opt:[7.2,7.6], warn:[6.8,8.0]}, {key:'cl', label:'Cloro Libre', unit:'ppm', opt:[1.0,3.0], warn:[0.5,5.0]}, {key:'ct', label:'Cloro Total', unit:'ppm', opt:[1.0,3.0], warn:[0.5,5.0]}, {key:'alk', label:'Alcalinidad', unit:'ppm', opt:[80,120], warn:[60,180]}, {key:'hard',label:'Dureza Ca.', unit:'ppm', opt:[200,400], warn:[150,600]}, {key:'cya', label:'Estabilizador',unit:'ppm', opt:[30,50], warn:[20,100]}, {key:'temp',label:'Temperatura', unit:'°C', opt:[24,30], warn:[10,40]}, {key:'salt',label:'Sal', unit:'ppm', opt:[3000,4000],warn:[2500,5000]}, ]; function paramStatus(key,val){ const p=PARAMS.find(x=>x.key===key); if(!p⠟⠞⠟⠺⠺⠟⠵⠵val===null⠞⠺⠵⠵⠞⠵⠺⠞⠟⠵⠟⠵⠺⠵⠟⠺⠞⠞⠺⠺⠺⠟⠺⠟⠟⠟⠺⠵⠞⠺⠵⠟⠞⠟⠵⠟⠺⠺⠺⠟⠵⠵⠞⠟⠺⠵⠵⠞⠟⠞⠟⠵⠵⠵⠟⠟⠞⠵⠵⠞⠺⠟⠵⠵⠺⠺⠞⠞⠟⠺⠺⠺⠟⠺⠟⠞⠵⠟⠵⠺⠟⠟⠟⠞⠞⠵⠵⠟⠞⠺⠺⠟⠟⠵⠞⠟⠵⠺⠺⠞⠵⠺⠟⠞⠞⠺⠟⠵⠺⠞⠺⠞⠞⠺⠺⠞⠞⠟⠞⠟⠞⠺⠟⠟⠵⠵⠺⠵⠵⠺⠵⠞⠟⠞⠵⠺⠺⠟⠟⠵⠺⠺⠞⠵⠺⠺⠺⠞⠟⠵⠞⠞⠵⠟⠞⠺⠺⠺⠺⠺⠟⠵⠵⠟⠵⠟⠺⠺⠞⠟⠵⠞⠵⠵⠵⠺⠞⠵⠺⠵⠺⠺⠟⠵⠺⠟⠺⠺⠵⠺⠺⠞⠞⠺⠞⠵⠞⠵⠟⠺⠵⠵⠞⠺⠟⠞⠵⠵⠞⠞⠞⠺⠞⠞⠟⠵⠺⠟⠺⠟⠟⠞⠺⠟⠟⠺⠺⠵⠺⠵⠵⠺⠺⠟⠺⠟⠞⠟⠟⠞⠺⠞⠵⠟⠞⠵⠞⠟⠞⠞⠟⠟⠟⠞⠺⠺⠵⠺⠵⠺⠞⠞⠵⠺⠟⠵⠵⠵⠺⠞⠟⠺⠟⠞⠟⠵⠞⠵⠵⠵⠟⠞⠟⠵⠞⠵⠵⠟⠞⠞⠟⠟⠵⠞⠟⠵⠵⠟⠺⠟⠞⠞⠵⠺⠺⠵⠞⠞⠺⠺⠵⠺⠞⠵⠵⠟⠵⠺⠟⠞⠵⠺⠞⠵⠟⠺⠟⠞⠺⠟⠟⠵⠺⠞⠵⠟⠵⠞⠞⠞⠞⠟⠟⠟⠞⠟⠺⠟⠞⠟⠵⠺⠺⠺⠟⠟⠞⠞⠵⠺⠞⠞⠟⠵⠺⠞⠞⠵⠟⠺⠞⠵⠵⠞⠟⠵⠟⠞⠞⠵⠞⠟⠵⠺⠺⠵⠟⠞⠞⠞⠟⠵⠞⠺⠺⠟⠵⠟⠟⠞⠟⠵⠺⠟⠞⠟⠵⠟⠞⠵⠵⠺⠵⠟⠺⠵⠟⠞⠞⠞⠞⠟⠞⠺⠞⠵⠵⠺⠟⠺⠵⠵⠵⠟⠵⠵⠵⠺⠞⠟⠞⠵⠺⠵⠞⠞⠞⠞⠵⠵⠺⠟⠺⠞⠵⠺⠺⠺⠵⠺⠺⠵⠺⠵⠟⠺⠵⠞⠟⠵⠺⠵⠵⠺⠺⠞⠟⠟⠞⠺⠞⠺⠵⠵⠞⠞⠟⠺⠵⠵⠞⠺⠞⠞⠺⠟⠞⠞⠞⠺⠺⠵⠵⠟⠺⠞⠺⠺⠵⠞⠵⠟⠵⠞⠞⠟⠟⠵⠞⠞⠵⠟⠺⠺⠵⠞⠞⠵⠺⠵⠵⠞⠵⠞⠟⠵⠟⠟⠵⠵⠟⠟⠟⠟⠟⠺⠞⠵⠵⠺⠟⠺⠺⠟⠟⠺⠟⠵⠞⠞⠺⠟⠵⠵⠺⠺⠟⠵⠟⠺⠟⠵⠺isNaN(v)){ el.innerHTML='<span class="dot"></span><span>—</span>'; return; } let status,label; if(v>=oMin&&v<=oMax){status='ok';label='✅ Óptimo';} else if(v>=wMin&&v<=wMax){status='warn';label='⚠️ Revisar';} else{status='danger';label='❌ Fuera de rango';} const color={'ok':'var(--ok)','warn':'var(--warn)','danger':'var(--danger)'}[status]; el.innerHTML=<span class="dot dot-${status}"></span><span style="color:${color}">${label}</span>; }; function populateMeasureClients(){ const sel=document.getElementById('mClient'); const cur=sel.value; sel.innerHTML='<option value="">— Selecciona cliente —</option>'+ state.clients.map(c=><option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>).join(''); } window.saveMeasure = async function(){ const cid=document.getElementById('mClient').value; if(!cid){ notify('Selecciona un cliente','error'); return; } await addDoc(collection(db,'measures'), { clientId: cid, date: document.getElementById('mDate').value||new Date().toISOString(), ph: document.getElementById('p-ph').value, cl: document.getElementById('p-cl').value, ct: document.getElementById('p-ct').value, alk: document.getElementById('p-alk').value, hard: document.getElementById('p-hard').value, cya: document.getElementById('p-cya').value, temp: document.getElementById('p-temp').value, salt: document.getElementById('p-salt').value, look: document.getElementById('p-look').value, notes: document.getElementById('p-notes').value, createdAt: new Date().toISOString() }); closeModal('measureModal'); clearMeasureForm(); notify('Medición registrada correctamente 📊'); }; function clearMeasureForm(){ ['p-ph','p-cl','p-ct','p-alk','p-hard','p-cya','p-temp','p-salt','p-notes'].forEach(id=>{ document.getElementById(id).value=''; }); ['ph','cl','ct','alk','hard','cya','temp','salt'].forEach(k=>{ document.getElementById('s-'+k).innerHTML='<span class="dot"></span><span>—</span>'; }); document.getElementById('p-look').selectedIndex=0; } function renderMeasureCards(measures){ return measures.map(m=>{ const d=new Date(m.date); const dateStr=d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); return `<div class="card" style="margin-bottom:10px;padding:16px"> <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px"> <span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--foam)">📅 ${dateStr}</span> <span style="font-size:.8rem">💧 ${m.look}</span> </div> <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px"> ${PARAMS.filter(p=>m[p.key]!==''&&m[p.key]!==undefined&&m[p.key]!==null).map(p=>{ const
+  .header-actions { display:flex; gap:10px; }
 
-s=paramStatus(p.key,m[p.key]); const c=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)'; return <div style="background:rgba(0,31,48,0.5);border-radius:10px;padding:10px;border:1px solid var(--border)"> <div style="font-size:.68rem;color:var(--foam);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">${p.label}</div> <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:${c}">${m[p.key]}${p.unit?'<span style="font-size:.7rem;font-family:\'DM Sans\'"> '+p.unit+'</span>':''}</div> </div>; }).join('')} </div> ${m.notes?<div style="margin-top:12px;font-size:.8rem;color:var(--foam);background:rgba(0,31,48,0.4);padding:10px;border-radius:8px">📝 ${m.notes}</div>:''} </div>; }).join(''); } // ============================================================ // DASHBOARD // ============================================================ function renderDashboard(){ const clients=state.clients; const measures=state.measures; const recent=measures.slice(-20).reverse(); const total=clients.length; const withIssues=clients.filter(c=>{ const last=measures.filter(m=>m.clientId===c.id).slice(-1)[0]; return last&&getOverallStatus(last)!=='ok'; }).length; const totalMeasures=measures.length; document.getElementById('statsRow').innerHTML= <div class="stat-card"><div class="stat-value" style="color:var(--aqua)">${total}</div><div class="stat-label">Clientes Activos</div></div> <div class="stat-card"><div class="stat-value" style="color:${withIssues>0?'var(--warn)':'var(--ok)'}">${withIssues}</div><div class="stat-label">Requieren Atención</div></div> <div class="stat-card"><div class="stat-value" style="color:var(--foam)">${totalMeasures}</div><div class="stat-label">Mediciones Totales</div></div> ; const rm=document.getElementById('recentMeasures'); if(!recent.length){ rm.innerHTML=<div class="empty"><div class="empty-icon">🌊</div><h3>Bienvenido a Danivia Piscinas</h3><p>Empieza añadiendo clientes y registrando mediciones.</p></div>; return; } const seen=new Set(); const filtered=recent.filter(m=>{ if(seen.has(m.clientId)) return false; seen.add(m.clientId); return true; }); rm.innerHTML=filtered.map(m=>{ const c=clients.find(x=>x.id===m.clientId)||{name:'Desconocido'}; const st=getOverallStatus(m); const badge=st==='ok'?'badge-ok':st==='warn'?'badge-warn':'badge-danger'; const label=st==='ok'?'✅ En Rango':st==='warn'?'⚠️ Revisar':'❌ Fuera de Rango'; const d=new Date(m.date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); return <div class="card" style="margin-bottom:14px"> <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px"> <div style="display:flex;align-items:center;gap:12px"> <div class="client-avatar" style="width:40px;height:40px;font-size:1rem;margin:0">${c.name.charAt(0)}</div> <div> <div style="font-weight:600">${c.name}</div> <div style="font-size:.75rem;color:var(--foam)">${d}</div> </div> </div> <span class="client-badge ${badge}">${label}</span> </div> <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px"> ${PARAMS.filter(p=>m[p.key]!==''&&m[p.key]!==undefined).map(p=>{ const s=paramStatus(p.key,m[p.key]); const c2=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)'; return <div style="background:rgba(0,31,48,0.5);border-radius:8px;padding:8px;text-align:center;border:1px solid var(--border)"> <div style="font-size:.65rem;color:var(--foam);text-transform:uppercase">${p.label}</div> <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:${c2}">${m[p.key]}${p.unit?'<span style="font-size:.6rem"> '+p.unit+'</span>':''}</div> </div>; }).join('')} </div> </div>`; }).join(''); } // ============================================================ // HISTORY // ============================================================ function renderHistory(){ const filter=document.getElementById('historyFilter'); const clients=state.clients; const cur=filter.value;
+  .btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 20px; border-radius:10px; border:none;
+    font-family:'DM Sans', sans-serif; font-size:.875rem; font-weight:600;
+    cursor:pointer; transition:all .2s ease; text-decoration:none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--aqua), var(--teal));
+    color:#fff;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.35);
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,180,216,0.5); }
+  .btn-ghost {
+    background:var(--glass); border:1px solid var(--border); color:var(--foam);
+    backdrop-filter:blur(8px);
+  }
+  .btn-ghost:hover { background:rgba(0,119,168,0.3); color:var(--white); }
+  .btn-sm { padding:7px 14px; font-size:.8rem; border-radius:8px; }
+  .btn-danger { background:rgba(239,35,60,0.2); border:1px solid rgba(239,35,60,0.4); color:#ff6b7a; }
+  .btn-danger:hover { background:rgba(239,35,60,0.35); }
+  .btn-success { background:linear-gradient(135deg,var(--ok),#059669); color:#fff; }
+  .btn-warn { background:linear-gradient(135deg,var(--warn),#e09000); color:#001f30; }
 
-filter.innerHTML='<option value="">— Todos los clientes —</option>'+ clients.map(c=><option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>).join(''); let measures=state.measures; if(cur) measures=measures.filter(m=>m.clientId===cur); measures=measures.slice().reverse(); const el=document.getElementById('historyTable'); if(!measures.length){ el.innerHTML=<div class="empty"><div class="empty-icon">📋</div><h3>Sin Registros</h3><p>No hay mediciones para mostrar.</p></div>; return; } el.innerHTML=<table class="history-table"> <thead><tr> <th>Fecha</th><th>Cliente</th> <th>pH</th><th>Cl Libre</th><th>Cl Total</th><th>Alc.</th><th>Dureza</th><th>Estab.</th><th>Temp.</th><th>Aspecto</th><th>Estado</th> </tr></thead> <tbody>${measures.map(m=>{ const c=clients.find(x=>x.id===m.clientId)||{name:'?'}; const st=getOverallStatus(m); const badge=st==='ok'?'badge-ok':st==='warn'?'badge-warn':'badge-danger'; const label=st==='ok'?'✅ OK':st==='warn'?'⚠️':'❌'; const d=new Date(m.date).toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); const cell=(key)=>{ const v=m[key]; if(v===''||v===undefined||v===null) return '<td>—</td>'; const s=paramStatus(key,v); const col=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)'; return <td style="color:${col};font-family:'DM Mono',monospace;font-weight:500">${v}</td>; }; return <tr> <td style="font-family:'DM Mono',monospace;font-size:.75rem">${d}</td> <td style="font-weight:600">${c.name}</td> ${cell('ph')}${cell('cl')}${cell('ct')}${cell('alk')}${cell('hard')}${cell('cya')}${cell('temp')} <td>${m.look||'—'}</td> <td><span class="client-badge ${badge}">${label}</span></td> </tr>; }).join('')}</tbody> </table>; } // ============================================================ // REPORTS // ============================================================ function populateReportClients(){ const sel=document.getElementById('reportClient'); const cur=sel.value; sel.innerHTML='<option value="">— Selecciona un cliente —</option>'+ state.clients.map(c=><option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>).join(''); generateReport(); } window.generateReport = function(){ const cid=document.getElementById('reportClient').value; const period=document.getElementById('reportPeriod').value; const note=document.getElementById('reportNote')?document.getElementById('reportNote').value:''; const prev=document.getElementById('reportPreview'); if(!cid){ prev.textContent='Selecciona un cliente para ver el informe...'; return; } const client=state.clients.find(c=>c.id===cid); if(!client){ prev.textContent='Cliente no encontrado.'; return; } let measures=state.measures.filter(m=>m.clientId===cid).slice().reverse(); if(period!=='all') measures=measures.slice(0,parseInt(period)); if(!measures.length){ prev.textContent='Sin mediciones registradas para este cliente.'; return; } const lines=[]; const line=(s='')=>lines.push(s); const now=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'}); line('╔══════════════════════════════════════════════════╗'); line('║ INFORME DE ANÁLISIS DE PISCINA ║'); line('║ DANIVIA PISCINAS ║'); line('╚══════════════════════════════════════════════════╝'); line(); line(📅 Fecha de emisión: ${now}); line('─────────────────────────────────────────────────'); line('DATOS DEL CLIENTE'); line( Nombre: ${client.name}); line( Email: ${client.email}); if(client.phone) line( Teléfono: ${client.phone}); if(client.address) line( Dirección: ${client.address}); line( Piscina: ${client.type}${client.volume?' · '+client.volume+' m³':''}); line('─────────────────────────────────────────────────'); measures.forEach((m,i)=>{ const d=new Date(m.date).toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}); line(); line(📊 MEDICIÓN ${i+1} — ${d}); line( Aspecto del agua: ${m.look}); line(); const rows=[ ['pH', m.ph, '', 7.2,7.6], ['Cloro Libre', m.cl, 'ppm', 1.0,3.0], ['Cloro
+  .tabs { display:flex; gap:4px; margin-bottom:28px; background:var(--glass); padding:5px; border-radius:14px; border:1px solid var(--border); backdrop-filter:blur(10px); width:fit-content; }
+  .tab {
+    padding:9px 22px; border-radius:10px; border:none; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-size:.875rem; font-weight:500;
+    color:var(--foam); background:transparent; transition:all .2s;
+  }
+  .tab.active { background:linear-gradient(135deg,var(--aqua),var(--teal)); color:#fff; box-shadow:0 2px 12px rgba(0,180,216,0.4); }
 
-Total', m.ct, 'ppm', 1.0,3.0], ['Alcalinidad', m.alk, 'ppm', 80,120], ['Dureza Cálcica', m.hard,'ppm', 200,400], ['Estabilizador', m.cya, 'ppm', 30,50], ['Temperatura', m.temp,'°C', 24,30], ]; if(m.salt) rows.push(['Sal',m.salt,'ppm',3000,4000]); rows.forEach(([lbl,val,unit,oMin,oMax])=>{ if(val===''⠺⠵⠞⠺⠵⠵⠟⠟⠟⠺⠟⠺⠺⠵⠵val===null) return; const v=parseFloat(val); const st=v>=oMin&&v<=oMax?'✅':v>=(oMin*0.85)&&v<=(oMax*1.15)?'⚠️':'❌'; const range=[${oMin}–${oMax}${unit?unit:''}]; line(' '+${lbl.padEnd(18)} ${String(val+' '+unit).padEnd(12)} ${range.padEnd(16)} ${st}); }); if(m.notes){ line(); line( 📝 Notas: ${m.notes}); } line(' ─────────────────────────────────────────────'); }); const last=measures[0]; const recs=[]; if(last.ph<7.2) recs.push('• pH bajo → Añadir Incrementador de pH'); if(last.ph>7.6) recs.push('• pH alto → Añadir Reductor de pH'); if(last.cl<1) recs.push('• Cloro libre bajo → Aplicar cloro choque'); if(last.cl>3) recs.push('• Cloro libre alto → Reducir dosificación'); if(last.alk<80) recs.push('• Alcalinidad baja → Añadir Bicarbonato sódico'); if(last.alk>120) recs.push('• Alcalinidad alta → Añadir Reductor de pH con aireación'); if(last.temp>30) recs.push('• Temperatura elevada → Aumentar frecuencia de análisis'); if(recs.length){ line(); line('RECOMENDACIONES'); recs.forEach(r=>line(r)); } if(note.trim()){ line(); line('─────────────────────────────────────────────────'); line('OBSERVACIONES ADICIONALES'); line(note.trim()); } line(); line('─────────────────────────────────────────────────'); line(' DANIVIA PISCINAS · Gestión Profesional de Piscinas'); line('═════════════════════════════════════════════════'); prev.textContent=lines.join('\n'); }; window.sendEmail = function(){ const cid=document.getElementById('reportClient').value; if(!cid){ notify('Selecciona un cliente primero','error'); return; } const client=state.clients.find(c=>c.id===cid); if(!client) return; const body=encodeURIComponent(document.getElementById('reportPreview').textContent); const subject=encodeURIComponent(Informe Análisis Piscina — ${client.name}); window.open(mailto:${client.email}?subject=${subject}&body=${body}); notify('Abriendo cliente de correo... 📧'); }; window.copyReport = function(){ const text=document.getElementById('reportPreview').textContent; if(!text⠵⠵⠞⠵⠺⠟⠟⠞⠟⠵⠺⠵⠟⠞⠺⠵⠵⠵⠺⠵⠞⠟⠺⠵⠞⠟⠞⠞⠞⠞⠞⠺⠟⠟⠟⠞⠵⠟⠵⠵⠞⠺⠟⠵⠵⠞⠺⠞⠞⠞⠺⠞⠺⠺⠵⠟⠞⠵⠵⠵⠺⠵⠺⠟⠵⠟⠵⠺⠟⠺⠵⠞⠞⠺⠞⠟⠞⠺⠵⠞⠺⠺⠞⠵⠞⠺⠵⠺⠺⠵⠟⠺⠟⠺⠞⠟⠟⠟⠞⠞⠺⠺⠵⠞⠟⠞⠞⠞⠞⠞⠟⠟⠵⠺⠞⠟⠵⠵⠺⠵⠞⠟⠵⠞⠟⠞⠟⠵⠵⠺⠵⠵⠞⠟⠺⠟⠺⠺⠞⠞⠵⠺⠵⠟⠟⠺⠟⠞⠺⠵⠞⠞⠞⠵⠵⠵⠺⠵⠞⠺⠟⠺⠟⠟⠟⠟⠺⠺⠺⠞⠞⠟⠺⠺⠞⠺⠞⠞⠟⠵⠞⠺⠺⠞⠟⠺⠟⠟⠞⠵⠵⠞⠟⠵⠟⠟⠺⠞⠟⠟⠺⠵⠺⠟⠞⠵⠵⠺⠟⠟⠟⠵⠺⠞⠵⠟⠺⠟⠺⠟⠺⠟⠞⠺⠟⠵⠺⠟⠺⠺⠞⠞⠺⠺⠵⠟⠞⠵⠞⠟⠟⠵⠞⠵⠺⠺⠞⠞⠞⠟⠵⠵⠟⠟⠟⠞⠵⠞⠟⠞⠞⠟⠺⠟⠵⠞⠺⠵⠺⠞⠺⠟⠵⠵⠺⠺⠟⠞⠞⠟⠟⠞⠟⠺⠺⠺⠟⠞⠞⠺⠟⠟⠞⠞⠺⠟⠞⠺⠵⠞⠵⠞⠺⠵⠵⠞⠵⠵⠞⠺⠞⠞⠟⠺⠵⠵⠞⠞⠟⠵⠟⠵⠟⠺⠵⠵⠵⠟⠟⠟⠺⠵⠵⠵⠵⠟⠟⠵⠵⠺⠺⠟⠟⠺⠞⠟⠟⠞⠟⠵⠟⠞⠺⠵⠟⠟⠺⠞⠵⠵⠵⠟⠟⠟⠺⠟⠟⠟⠟⠺⠟⠺⠟⠟⠵⠵⠺⠵⠵⠟⠟⠟⠵⠺⠵⠺⠺⠺⠵⠵⠺⠵⠵⠺⠟⠺⠞⠵⠞⠵⠞⠞⠺⠟⠵⠵⠞⠞⠺⠟⠺⠟⠞⠟⠵⠞⠺⠵⠺⠟⠞⠵⠵⠺⠞⠞⠵⠺⠞⠞⠞⠟⠵⠟⠟⠟⠺⠺⠞⠺⠟⠺⠵⠵⠺⠞⠺⠟⠟⠵⠺⠺⠵⠺⠵⠺⠺⠞⠵⠞⠵⠟⠟⠵⠺⠺⠵⠞⠞⠵⠞⠺⠟⠟⠞⠞⠵⠺⠵⠞⠵⠵⠟⠺⠟⠟⠞⠺⠞⠞⠞⠞⠟⠞⠺⠺text.includes('Selecciona')){ notify('Genera el informe primero','error'); return; } const w=window.open('','_blank'); w.document.write(<html><head><title>Informe Piscina</title> <style>body{font-family:monospace;white-space:pre;padding:30px;font-size:13px;line-height:1.6}</style> </head><body>${text.replace(/</g,'&lt;')}</body></html>); w.document.close(); w.print(); }; // ============================================================ // INIT // ============================================================ document.addEventListener('DOMContentLoaded',()=>{ const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); const dtEl=document.getElementById('mDate'); if(dtEl) dtEl.value=now.toISOString().slice(0,16); }); </script> </body> </html>
+  .card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:18px; padding:24px;
+    backdrop-filter:blur(12px);
+    transition:all .25s ease;
+  }
+  .card:hover { border-color:rgba(0,180,216,0.45); box-shadow:0 8px 32px rgba(0,180,216,0.12); }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+
+  .client-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+  .client-card {
+    background:var(--card); border:1px solid var(--border); border-radius:18px; padding:20px;
+    cursor:pointer; transition:all .25s ease; position:relative; overflow:hidden;
+  }
+  .client-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,var(--aqua),var(--accent));
+    transform:scaleX(0); transform-origin:left; transition:transform .3s ease;
+  }
+  .client-card:hover::before { transform:scaleX(1); }
+  .client-card:hover { border-color:rgba(0,180,216,0.5); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,61,91,0.5); }
+  .client-card.selected { border-color:var(--aqua); background:rgba(0,119,168,0.25); }
+
+  .client-avatar {
+    width:52px; height:52px; border-radius:14px;
+    background:linear-gradient(135deg,var(--teal),var(--ocean));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:var(--foam);
+    margin-bottom:14px; border:2px solid var(--border);
+  }
+  .client-name { font-weight:600; font-size:1rem; margin-bottom:4px; }
+  .client-info { font-size:.78rem; color:var(--foam); display:flex; flex-direction:column; gap:3px; }
+  .client-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:.7rem; padding:3px 9px; border-radius:20px; margin-top:10px;
+    font-family:'DM Mono',monospace; letter-spacing:.5px;
+  }
+  .badge-ok  { background:rgba(6,214,160,0.18); color:var(--ok); border:1px solid rgba(6,214,160,0.35); }
+  .badge-warn{ background:rgba(255,183,3,0.18);  color:var(--warn); border:1px solid rgba(255,183,3,0.35); }
+  .badge-danger{ background:rgba(239,35,60,0.18); color:var(--danger); border:1px solid rgba(239,35,60,0.35); }
+
+  .form-group { margin-bottom:16px; }
+  label { display:block; font-size:.8rem; font-weight:600; color:var(--foam); margin-bottom:7px; letter-spacing:.5px; text-transform:uppercase; }
+  input, select, textarea {
+    width:100%; padding:11px 15px; border-radius:10px;
+    background:rgba(0,31,48,0.7); border:1px solid var(--border);
+    color:var(--white); font-family:'DM Sans',sans-serif; font-size:.9rem;
+    transition:all .2s; outline:none;
+    backdrop-filter:blur(6px);
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color:var(--aqua); box-shadow:0 0 0 3px rgba(0,180,216,0.18);
+  }
+  input::placeholder { color:rgba(144,224,239,0.4); }
+  select option { background:var(--ocean); }
+  textarea { resize:vertical; min-height:90px; }
+
+  .param-row {
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:end;
+    padding:14px; border-radius:12px; background:rgba(0,31,48,0.4); border:1px solid var(--border);
+    margin-bottom:10px;
+  }
+  .param-label { font-size:.8rem; font-weight:600; color:var(--foam); text-transform:uppercase; letter-spacing:.5px; }
+  .param-range { font-size:.7rem; color:rgba(144,224,239,0.6); font-family:'DM Mono',monospace; }
+  .param-status { display:flex; align-items:center; gap:6px; font-size:.78rem; font-weight:600; }
+  .dot { width:8px; height:8px; border-radius:50%; }
+  .dot-ok     { background:var(--ok); box-shadow:0 0 8px var(--ok); }
+  .dot-warn   { background:var(--warn); box-shadow:0 0 8px var(--warn); }
+  .dot-danger { background:var(--danger); box-shadow:0 0 8px var(--danger); }
+
+  .history-table { width:100%; border-collapse:collapse; font-size:.82rem; }
+  .history-table th {
+    padding:10px 14px; text-align:left;
+    font-family:'DM Mono',monospace; font-size:.72rem; letter-spacing:.8px; text-transform:uppercase;
+    color:var(--foam); border-bottom:1px solid var(--border);
+  }
+  .history-table td { padding:12px 14px; border-bottom:1px solid rgba(0,180,216,0.08); }
+  .history-table tr:last-child td { border-bottom:none; }
+  .history-table tr:hover td { background:rgba(0,119,168,0.1); }
+
+  .stat-card {
+    background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px 20px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .stat-value { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:1px; line-height:1; }
+  .stat-label { font-size:.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--foam); }
+
+  .modal-overlay {
+    position:fixed; inset:0; z-index:100;
+    background:rgba(0,10,20,0.75); backdrop-filter:blur(8px);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal {
+    background: linear-gradient(160deg, #012a40, #001523);
+    border:1px solid var(--border); border-radius:22px;
+    width:100%; max-width:560px; max-height:90vh; overflow-y:auto;
+    padding:30px; position:relative;
+    transform:translateY(20px); transition:transform .25s;
+    box-shadow:0 24px 80px rgba(0,0,0,0.6);
+  }
+  .modal-overlay.open .modal { transform:translateY(0); }
+  .modal h2 { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:2px; margin-bottom:24px; color:var(--foam); }
+  .modal-close {
+    position:absolute; top:18px; right:18px;
+    background:var(--glass); border:1px solid var(--border);
+    color:var(--foam); width:34px; height:34px; border-radius:8px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+    transition:all .2s;
+  }
+  .modal-close:hover { background:rgba(239,35,60,0.2); color:#ff6b7a; }
+
+  .empty {
+    text-align:center; padding:60px 30px; color:rgba(144,224,239,0.5);
+  }
+  .empty-icon { font-size:3.5rem; margin-bottom:16px; }
+  .empty h3 { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; margin-bottom:8px; color:var(--foam); }
+  .empty p  { font-size:.875rem; line-height:1.6; }
+
+  .notif {
+    position:fixed; top:24px; right:24px; z-index:200;
+    padding:14px 22px; border-radius:12px;
+    background:linear-gradient(135deg,var(--ok),#059669);
+    color:#fff; font-weight:600; font-size:.875rem;
+    box-shadow:0 8px 24px rgba(6,214,160,0.4);
+    transform:translateX(120%); transition:transform .3s ease;
+    display:flex; align-items:center; gap:10px;
+  }
+  .notif.show { transform:translateX(0); }
+  .notif.error { background:linear-gradient(135deg,var(--danger),#b00020); box-shadow:0 8px 24px rgba(239,35,60,0.4); }
+
+  .report-box {
+    background:rgba(0,31,48,0.8); border:1px solid var(--border); border-radius:14px;
+    padding:22px; font-family:'DM Mono',monospace; font-size:.82rem; line-height:1.8;
+    white-space:pre-wrap; color:var(--foam);
+  }
+
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--teal); border-radius:3px; }
+
+  @media(max-width:640px) {
+    .grid-2, .grid-3 { grid-template-columns:1fr; }
+    .param-row { grid-template-columns:1fr 1fr; }
+    header { flex-direction:column; gap:16px; align-items:flex-start; }
+  }
+
+  .section-title {
+    font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:2px;
+    color:var(--foam); margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:.7rem; font-family:'DM Mono',monospace; }
+
+  input[type=number]::-webkit-inner-spin-button { opacity:.4; }
+
+  /* Sync indicator */
+  .sync-dot {
+    width:8px; height:8px; border-radius:50%; background:var(--ok);
+    box-shadow:0 0 8px var(--ok); display:inline-block; margin-right:6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; } 50% { opacity:.4; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🌊</div>
+      <div class="logo-text">
+        <h1>DANIVIA PISCINAS</h1>
+        <span><span class="sync-dot"></span>Sincronizado en la nube</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('clientModal')">＋ Nuevo Cliente</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('measureModal')">📊 Registrar Parámetros</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('dashboard',this)">🏠 Panel</button>
+    <button class="tab" onclick="showTab('clients',this)">👥 Clientes</button>
+    <button class="tab" onclick="showTab('history',this)">📋 Historial</button>
+    <button class="tab" onclick="showTab('reports',this)">📧 Informes</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="tab-dashboard">
+    <div class="grid-3" style="margin-bottom:24px" id="statsRow"></div>
+    <div class="section-title">Últimas Mediciones</div>
+    <div id="recentMeasures"></div>
+  </div>
+
+  <!-- CLIENTS -->
+  <div id="tab-clients" style="display:none">
+    <div class="section-title">Clientes Registrados</div>
+    <div class="client-grid" id="clientGrid"></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="tab-history" style="display:none">
+    <div style="display:flex;gap:12px;margin-bottom:20px;align-items:center;flex-wrap:wrap">
+      <select id="historyFilter" style="width:220px" onchange="renderHistory()">
+        <option value="">— Todos los clientes —</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="renderHistory()">🔄 Actualizar</button>
+    </div>
+    <div class="card">
+      <div style="overflow-x:auto" id="historyTable"></div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div id="tab-reports" style="display:none">
+    <div class="grid-2" style="gap:24px">
+      <div>
+        <div class="section-title">Generar Informe</div>
+        <div class="card">
+          <div class="form-group">
+            <label>Cliente</label>
+            <select id="reportClient" onchange="generateReport()">
+              <option value="">— Selecciona un cliente —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Período</label>
+            <select id="reportPeriod" onchange="generateReport()">
+              <option value="1">Última medición</option>
+              <option value="5" selected>Últimas 5 mediciones</option>
+              <option value="10">Últimas 10 mediciones</option>
+              <option value="all">Todas</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nota adicional</label>
+            <textarea id="reportNote" placeholder="Observaciones o recomendaciones..."></textarea>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="sendEmail()">📧 Enviar por Email</button>
+            <button class="btn btn-ghost" onclick="copyReport()">📋 Copiar Informe</button>
+            <button class="btn btn-warn" onclick="printReport()">🖨️ Imprimir</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">Vista Previa</div>
+        <div class="report-box" id="reportPreview">Selecciona un cliente para ver el informe...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CLIENT -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('clientModal')">✕</button>
+    <h2>➕ Nuevo Cliente</h2>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Nombre Completo *</label>
+        <input id="cName" type="text" placeholder="Juan García">
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input id="cPhone" type="tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email *</label>
+      <input id="cEmail" type="email" placeholder="cliente@ejemplo.com">
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Dirección / Instalación</label>
+        <input id="cAddress" type="text" placeholder="Calle, nº, ciudad">
+      </div>
+      <div class="form-group">
+        <label>Tipo de Piscina</label>
+        <select id="cType">
+          <option>Residencial</option>
+          <option>Comunitaria</option>
+          <option>Comercial</option>
+          <option>Hotel / SPA</option>
+          <option>Municipal</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Capacidad (m³)</label>
+      <input id="cVolume" type="number" placeholder="50">
+    </div>
+    <div class="form-group">
+      <label>Notas</label>
+      <textarea id="cNotes" placeholder="Observaciones generales..."></textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="saveClient()">Guardar Cliente</button>
+  </div>
+</div>
+
+<!-- ADD MEASUREMENT -->
+<div class="modal-overlay" id="measureModal">
+  <div class="modal" style="max-width:620px">
+    <button class="modal-close" onclick="closeModal('measureModal')">✕</button>
+    <h2>📊 Registro de Parámetros</h2>
+    <div class="form-group">
+      <label>Cliente *</label>
+      <select id="mClient">
+        <option value="">— Selecciona cliente —</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Fecha y Hora</label>
+      <input id="mDate" type="datetime-local">
+    </div>
+
+    <div style="margin:18px 0 10px">
+      <div class="section-title" style="font-size:1rem">Parámetros Físico-Químicos</div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">pH</div>
+        <div class="param-range">Óptimo: 7.2 – 7.6</div>
+      </div>
+      <input type="number" id="p-ph" step="0.1" min="0" max="14" placeholder="7.4" oninput="updateStatus('ph',this.value,7.2,7.6,6.8,8.0)">
+      <div id="s-ph" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Cloro Libre (ppm)</div>
+        <div class="param-range">Óptimo: 1.0 – 3.0</div>
+      </div>
+      <input type="number" id="p-cl" step="0.1" min="0" placeholder="2.0" oninput="updateStatus('cl',this.value,1.0,3.0,0.5,5.0)">
+      <div id="s-cl" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Cloro Total (ppm)</div>
+        <div class="param-range">Óptimo: 1.0 – 3.0</div>
+      </div>
+      <input type="number" id="p-ct" step="0.1" min="0" placeholder="2.0" oninput="updateStatus('ct',this.value,1.0,3.0,0.5,5.0)">
+      <div id="s-ct" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Alcalinidad (ppm)</div>
+        <div class="param-range">Óptimo: 80 – 120</div>
+      </div>
+      <input type="number" id="p-alk" step="1" min="0" placeholder="100" oninput="updateStatus('alk',this.value,80,120,60,180)">
+      <div id="s-alk" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Dureza Cálcica (ppm)</div>
+        <div class="param-range">Óptimo: 200 – 400</div>
+      </div>
+      <input type="number" id="p-hard" step="5" min="0" placeholder="250" oninput="updateStatus('hard',this.value,200,400,150,600)">
+      <div id="s-hard" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Estabilizador / CYA (ppm)</div>
+        <div class="param-range">Óptimo: 30 – 50</div>
+      </div>
+      <input type="number" id="p-cya" step="1" min="0" placeholder="40" oninput="updateStatus('cya',this.value,30,50,20,100)">
+      <div id="s-cya" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Temperatura (°C)</div>
+        <div class="param-range">Óptimo: 24 – 30</div>
+      </div>
+      <input type="number" id="p-temp" step="0.5" placeholder="26" oninput="updateStatus('temp',this.value,24,30,10,40)">
+      <div id="s-temp" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="param-row">
+      <div>
+        <div class="param-label">Sal (ppm) <span class="tag" style="background:var(--glass);color:var(--foam)">Opcional</span></div>
+        <div class="param-range">Óptimo: 3000 – 4000</div>
+      </div>
+      <input type="number" id="p-salt" step="50" min="0" placeholder="3500" oninput="updateStatus('salt',this.value,3000,4000,2500,5000)">
+      <div id="s-salt" class="param-status"><span class="dot"></span><span>—</span></div>
+    </div>
+
+    <div class="form-group" style="margin-top:16px">
+      <label>Aspecto del Agua</label>
+      <select id="p-look">
+        <option value="Cristalina">💎 Cristalina</option>
+        <option value="Ligeramente turbia">🌫️ Ligeramente turbia</option>
+        <option value="Turbia">🌫️ Turbia</option>
+        <option value="Verde / Algas">🟢 Verde / Algas</option>
+        <option value="Marrón / Óxido">🟤 Marrón / Óxido</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Observaciones</label>
+      <textarea id="p-notes" placeholder="Tratamientos aplicados, incidencias..."></textarea>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%" onclick="saveMeasure()">💾 Guardar Medición</button>
+  </div>
+</div>
+
+<!-- VIEW CLIENT DETAIL -->
+<div class="modal-overlay" id="clientDetailModal">
+  <div class="modal" style="max-width:660px">
+    <button class="modal-close" onclick="closeModal('clientDetailModal')">✕</button>
+    <div id="clientDetailContent"></div>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">✅ <span id="notifMsg">Guardado</span></div>
+
+<script type="module">
+// ============================================================
+//  FIREBASE SETUP
+// ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDzxD4liz8v97E9EYjdK3nTyEzXjEuhdUg",
+  authDomain: "registro-danivia.firebaseapp.com",
+  projectId: "registro-danivia",
+  storageBucket: "registro-danivia.firebasestorage.app",
+  messagingSenderId: "818166293124",
+  appId: "1:818166293124:web:4b66a909f25702712558d1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+// ============================================================
+//  GLOBAL STATE — kept in sync with Firestore in real time
+// ============================================================
+let state = { clients: [], measures: [] };
+let currentTab = 'dashboard';
+
+// Real-time listener for clients
+onSnapshot(query(collection(db,'clients'), orderBy('createdAt','asc')), snap => {
+  state.clients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderAll();
+});
+
+// Real-time listener for measures
+onSnapshot(query(collection(db,'measures'), orderBy('date','asc')), snap => {
+  state.measures = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderAll();
+});
+
+function renderAll(){
+  renderDashboard();
+  if(currentTab==='clients')  renderClients();
+  if(currentTab==='history')  renderHistory();
+  if(currentTab==='reports')  populateReportClients();
+}
+
+// ============================================================
+//  UTILS
+// ============================================================
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+
+function notify(msg,type=''){
+  const n=document.getElementById('notif');
+  document.getElementById('notifMsg').textContent=msg;
+  n.className='notif'+(type?' '+type:'');
+  n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),3200);
+}
+
+// ============================================================
+//  MODALS
+// ============================================================
+window.openModal = function(id){
+  if(id==='measureModal') populateMeasureClients();
+  if(id==='measureModal'){
+    const now=new Date();
+    now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+    document.getElementById('mDate').value=now.toISOString().slice(0,16);
+  }
+  document.getElementById(id).classList.add('open');
+};
+window.closeModal = function(id){ document.getElementById(id).classList.remove('open'); };
+
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{ if(e.target===el) el.classList.remove('open'); });
+});
+
+// ============================================================
+//  TABS
+// ============================================================
+window.showTab = function(name,btn){
+  ['dashboard','clients','history','reports'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display=(t===name?'block':'none');
+  });
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  currentTab = name;
+  renderAll();
+};
+
+// ============================================================
+//  CLIENTS
+// ============================================================
+window.saveClient = async function(){
+  const name=document.getElementById('cName').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  if(!name||!email){ notify('Nombre y email son obligatorios','error'); return; }
+  await addDoc(collection(db,'clients'), {
+    name, email,
+    phone:   document.getElementById('cPhone').value.trim(),
+    address: document.getElementById('cAddress').value.trim(),
+    type:    document.getElementById('cType').value,
+    volume:  document.getElementById('cVolume').value,
+    notes:   document.getElementById('cNotes').value.trim(),
+    createdAt: new Date().toISOString()
+  });
+  closeModal('clientModal');
+  ['cName','cEmail','cPhone','cAddress','cVolume','cNotes'].forEach(id=>{ document.getElementById(id).value=''; });
+  document.getElementById('cType').selectedIndex=0;
+  notify('Cliente registrado correctamente ✅');
+};
+
+function renderClients(){
+  const clients=state.clients;
+  const grid=document.getElementById('clientGrid');
+  if(!clients.length){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1">
+      <div class="empty-icon">👤</div>
+      <h3>Sin Clientes</h3>
+      <p>Añade tu primer cliente con el botón "Nuevo Cliente"</p>
+    </div>`; return;
+  }
+  grid.innerHTML=clients.map(c=>{
+    const measures=state.measures.filter(m=>m.clientId===c.id);
+    const last=measures[measures.length-1];
+    const status=last?getOverallStatus(last):'sin-datos';
+    const badge=status==='ok'?'badge-ok':status==='warn'?'badge-warn':status==='danger'?'badge-danger':'';
+    const label=status==='ok'?'✅ En Rango':status==='warn'?'⚠️ Revisar':status==='danger'?'❌ Fuera de Rango':'📋 Sin mediciones';
+    return `<div class="client-card" onclick="showClientDetail('${c.id}')">
+      <div class="client-avatar">${c.name.charAt(0).toUpperCase()}</div>
+      <div class="client-name">${c.name}</div>
+      <div class="client-info">
+        <span>📧 ${c.email}</span>
+        ${c.phone?`<span>📱 ${c.phone}</span>`:''}
+        ${c.address?`<span>📍 ${c.address}</span>`:''}
+        <span>🏊 ${c.type} ${c.volume?'('+c.volume+' m³)':''}</span>
+        <span>📊 ${measures.length} mediciones</span>
+      </div>
+      <span class="client-badge ${badge}">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+window.showClientDetail = function(id){
+  const client=state.clients.find(c=>c.id===id);
+  if(!client) return;
+  const measures=state.measures.filter(m=>m.clientId===id).slice(-5).reverse();
+  const last=measures[0];
+
+  document.getElementById('clientDetailContent').innerHTML=`
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+      <div class="client-avatar" style="width:60px;height:60px;font-size:1.6rem">${client.name.charAt(0)}</div>
+      <div>
+        <div style="font-weight:700;font-size:1.2rem">${client.name}</div>
+        <div style="font-size:.8rem;color:var(--foam)">${client.type} ${client.volume?'· '+client.volume+' m³':''}</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-danger btn-sm" onclick="deleteClient('${id}')">🗑️ Eliminar</button>
+        <button class="btn btn-primary btn-sm" onclick="closeModal('clientDetailModal');setTimeout(()=>{document.getElementById('mClient').value='${id}';openModal('measureModal')},100)">+ Medición</button>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div><label>Email</label><div style="font-size:.9rem;padding:8px 0">${client.email}</div></div>
+      <div><label>Teléfono</label><div style="font-size:.9rem;padding:8px 0">${client.phone||'—'}</div></div>
+      <div><label>Dirección</label><div style="font-size:.9rem;padding:8px 0">${client.address||'—'}</div></div>
+      <div><label>Notas</label><div style="font-size:.9rem;padding:8px 0">${client.notes||'—'}</div></div>
+    </div>
+    <div class="section-title" style="font-size:1rem">Últimas Mediciones</div>
+    ${last ? renderMeasureCards(measures) : '<div class="empty"><div class="empty-icon">📊</div><p>No hay mediciones registradas</p></div>'}
+  `;
+  openModal('clientDetailModal');
+};
+
+window.deleteClient = async function(id){
+  if(!confirm('¿Seguro que quieres eliminar este cliente y todas sus mediciones?')) return;
+  await deleteDoc(doc(db,'clients',id));
+  const measures=state.measures.filter(m=>m.clientId===id);
+  for(const m of measures){ await deleteDoc(doc(db,'measures',m.id)); }
+  closeModal('clientDetailModal');
+  notify('Cliente eliminado');
+};
+
+// ============================================================
+//  MEASURES
+// ============================================================
+const PARAMS=[
+  {key:'ph',  label:'pH',           unit:'',    opt:[7.2,7.6], warn:[6.8,8.0]},
+  {key:'cl',  label:'Cloro Libre',  unit:'ppm', opt:[1.0,3.0], warn:[0.5,5.0]},
+  {key:'ct',  label:'Cloro Total',  unit:'ppm', opt:[1.0,3.0], warn:[0.5,5.0]},
+  {key:'alk', label:'Alcalinidad',  unit:'ppm', opt:[80,120],  warn:[60,180]},
+  {key:'hard',label:'Dureza Ca.',   unit:'ppm', opt:[200,400], warn:[150,600]},
+  {key:'cya', label:'Estabilizador',unit:'ppm', opt:[30,50],   warn:[20,100]},
+  {key:'temp',label:'Temperatura',  unit:'°C',  opt:[24,30],   warn:[10,40]},
+  {key:'salt',label:'Sal',          unit:'ppm', opt:[3000,4000],warn:[2500,5000]},
+];
+
+function paramStatus(key,val){
+  const p=PARAMS.find(x=>x.key===key);
+  if(!p||val===''||val===null||val===undefined) return null;
+  const v=parseFloat(val);
+  if(v>=p.opt[0]&&v<=p.opt[1]) return 'ok';
+  if(v>=p.warn[0]&&v<=p.warn[1]) return 'warn';
+  return 'danger';
+}
+
+function getOverallStatus(m){
+  const statuses=['ph','cl','alk','temp'].map(k=>paramStatus(k,m[k])).filter(Boolean);
+  if(statuses.some(s=>s==='danger')) return 'danger';
+  if(statuses.some(s=>s==='warn'))   return 'warn';
+  if(statuses.length) return 'ok';
+  return 'sin-datos';
+}
+
+window.updateStatus = function(key,val,oMin,oMax,wMin,wMax){
+  const el=document.getElementById('s-'+key);
+  const v=parseFloat(val);
+  if(val===''||isNaN(v)){ el.innerHTML='<span class="dot"></span><span>—</span>'; return; }
+  let status,label;
+  if(v>=oMin&&v<=oMax){status='ok';label='✅ Óptimo';}
+  else if(v>=wMin&&v<=wMax){status='warn';label='⚠️ Revisar';}
+  else{status='danger';label='❌ Fuera de rango';}
+  const color={'ok':'var(--ok)','warn':'var(--warn)','danger':'var(--danger)'}[status];
+  el.innerHTML=`<span class="dot dot-${status}"></span><span style="color:${color}">${label}</span>`;
+};
+
+function populateMeasureClients(){
+  const sel=document.getElementById('mClient');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Selecciona cliente —</option>'+
+    state.clients.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
+}
+
+window.saveMeasure = async function(){
+  const cid=document.getElementById('mClient').value;
+  if(!cid){ notify('Selecciona un cliente','error'); return; }
+  await addDoc(collection(db,'measures'), {
+    clientId: cid,
+    date:  document.getElementById('mDate').value||new Date().toISOString(),
+    ph:    document.getElementById('p-ph').value,
+    cl:    document.getElementById('p-cl').value,
+    ct:    document.getElementById('p-ct').value,
+    alk:   document.getElementById('p-alk').value,
+    hard:  document.getElementById('p-hard').value,
+    cya:   document.getElementById('p-cya').value,
+    temp:  document.getElementById('p-temp').value,
+    salt:  document.getElementById('p-salt').value,
+    look:  document.getElementById('p-look').value,
+    notes: document.getElementById('p-notes').value,
+    createdAt: new Date().toISOString()
+  });
+  closeModal('measureModal');
+  clearMeasureForm();
+  notify('Medición registrada correctamente 📊');
+};
+
+function clearMeasureForm(){
+  ['p-ph','p-cl','p-ct','p-alk','p-hard','p-cya','p-temp','p-salt','p-notes'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  ['ph','cl','ct','alk','hard','cya','temp','salt'].forEach(k=>{
+    document.getElementById('s-'+k).innerHTML='<span class="dot"></span><span>—</span>';
+  });
+  document.getElementById('p-look').selectedIndex=0;
+}
+
+function renderMeasureCards(measures){
+  return measures.map(m=>{
+    const d=new Date(m.date);
+    const dateStr=d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="card" style="margin-bottom:10px;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--foam)">📅 ${dateStr}</span>
+        <span style="font-size:.8rem">💧 ${m.look}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px">
+        ${PARAMS.filter(p=>m[p.key]!==''&&m[p.key]!==undefined&&m[p.key]!==null).map(p=>{
+          const s=paramStatus(p.key,m[p.key]);
+          const c=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)';
+          return `<div style="background:rgba(0,31,48,0.5);border-radius:10px;padding:10px;border:1px solid var(--border)">
+            <div style="font-size:.68rem;color:var(--foam);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">${p.label}</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:${c}">${m[p.key]}${p.unit?'<span style="font-size:.7rem;font-family:\'DM Sans\'"> '+p.unit+'</span>':''}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      ${m.notes?`<div style="margin-top:12px;font-size:.8rem;color:var(--foam);background:rgba(0,31,48,0.4);padding:10px;border-radius:8px">📝 ${m.notes}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function renderDashboard(){
+  const clients=state.clients;
+  const measures=state.measures;
+  const recent=measures.slice(-20).reverse();
+
+  const total=clients.length;
+  const withIssues=clients.filter(c=>{
+    const last=measures.filter(m=>m.clientId===c.id).slice(-1)[0];
+    return last&&getOverallStatus(last)!=='ok';
+  }).length;
+  const totalMeasures=measures.length;
+
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-card"><div class="stat-value" style="color:var(--aqua)">${total}</div><div class="stat-label">Clientes Activos</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:${withIssues>0?'var(--warn)':'var(--ok)'}">${withIssues}</div><div class="stat-label">Requieren Atención</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--foam)">${totalMeasures}</div><div class="stat-label">Mediciones Totales</div></div>
+  `;
+
+  const rm=document.getElementById('recentMeasures');
+  if(!recent.length){
+    rm.innerHTML=`<div class="empty"><div class="empty-icon">🌊</div><h3>Bienvenido a Danivia Piscinas</h3><p>Empieza añadiendo clientes y registrando mediciones.</p></div>`;
+    return;
+  }
+  const seen=new Set();
+  const filtered=recent.filter(m=>{ if(seen.has(m.clientId)) return false; seen.add(m.clientId); return true; });
+  rm.innerHTML=filtered.map(m=>{
+    const c=clients.find(x=>x.id===m.clientId)||{name:'Desconocido'};
+    const st=getOverallStatus(m);
+    const badge=st==='ok'?'badge-ok':st==='warn'?'badge-warn':'badge-danger';
+    const label=st==='ok'?'✅ En Rango':st==='warn'?'⚠️ Revisar':'❌ Fuera de Rango';
+    const d=new Date(m.date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<div class="card" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="client-avatar" style="width:40px;height:40px;font-size:1rem;margin:0">${c.name.charAt(0)}</div>
+          <div>
+            <div style="font-weight:600">${c.name}</div>
+            <div style="font-size:.75rem;color:var(--foam)">${d}</div>
+          </div>
+        </div>
+        <span class="client-badge ${badge}">${label}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px">
+        ${PARAMS.filter(p=>m[p.key]!==''&&m[p.key]!==undefined).map(p=>{
+          const s=paramStatus(p.key,m[p.key]);
+          const c2=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)';
+          return `<div style="background:rgba(0,31,48,0.5);border-radius:8px;padding:8px;text-align:center;border:1px solid var(--border)">
+            <div style="font-size:.65rem;color:var(--foam);text-transform:uppercase">${p.label}</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:${c2}">${m[p.key]}${p.unit?'<span style="font-size:.6rem"> '+p.unit+'</span>':''}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+//  HISTORY
+// ============================================================
+function renderHistory(){
+  const filter=document.getElementById('historyFilter');
+  const clients=state.clients;
+  const cur=filter.value;
+  filter.innerHTML='<option value="">— Todos los clientes —</option>'+
+    clients.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
+
+  let measures=state.measures;
+  if(cur) measures=measures.filter(m=>m.clientId===cur);
+  measures=measures.slice().reverse();
+
+  const el=document.getElementById('historyTable');
+  if(!measures.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><h3>Sin Registros</h3><p>No hay mediciones para mostrar.</p></div>`;
+    return;
+  }
+
+  el.innerHTML=`<table class="history-table">
+    <thead><tr>
+      <th>Fecha</th><th>Cliente</th>
+      <th>pH</th><th>Cl Libre</th><th>Cl Total</th><th>Alc.</th><th>Dureza</th><th>Estab.</th><th>Temp.</th><th>Aspecto</th><th>Estado</th>
+    </tr></thead>
+    <tbody>${measures.map(m=>{
+      const c=clients.find(x=>x.id===m.clientId)||{name:'?'};
+      const st=getOverallStatus(m);
+      const badge=st==='ok'?'badge-ok':st==='warn'?'badge-warn':'badge-danger';
+      const label=st==='ok'?'✅ OK':st==='warn'?'⚠️':'❌';
+      const d=new Date(m.date).toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const cell=(key)=>{
+        const v=m[key]; if(v===''||v===undefined||v===null) return '<td>—</td>';
+        const s=paramStatus(key,v);
+        const col=s==='ok'?'var(--ok)':s==='warn'?'var(--warn)':s==='danger'?'var(--danger)':'var(--foam)';
+        return `<td style="color:${col};font-family:'DM Mono',monospace;font-weight:500">${v}</td>`;
+      };
+      return `<tr>
+        <td style="font-family:'DM Mono',monospace;font-size:.75rem">${d}</td>
+        <td style="font-weight:600">${c.name}</td>
+        ${cell('ph')}${cell('cl')}${cell('ct')}${cell('alk')}${cell('hard')}${cell('cya')}${cell('temp')}
+        <td>${m.look||'—'}</td>
+        <td><span class="client-badge ${badge}">${label}</span></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+// ============================================================
+//  REPORTS
+// ============================================================
+function populateReportClients(){
+  const sel=document.getElementById('reportClient');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Selecciona un cliente —</option>'+
+    state.clients.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
+  generateReport();
+}
+
+window.generateReport = function(){
+  const cid=document.getElementById('reportClient').value;
+  const period=document.getElementById('reportPeriod').value;
+  const note=document.getElementById('reportNote')?document.getElementById('reportNote').value:'';
+  const prev=document.getElementById('reportPreview');
+
+  if(!cid){ prev.textContent='Selecciona un cliente para ver el informe...'; return; }
+  const client=state.clients.find(c=>c.id===cid);
+  if(!client){ prev.textContent='Cliente no encontrado.'; return; }
+
+  let measures=state.measures.filter(m=>m.clientId===cid).slice().reverse();
+  if(period!=='all') measures=measures.slice(0,parseInt(period));
+  if(!measures.length){ prev.textContent='Sin mediciones registradas para este cliente.'; return; }
+
+  const lines=[];
+  const line=(s='')=>lines.push(s);
+  const now=new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'});
+
+  line('╔══════════════════════════════════════════════════╗');
+  line('║        INFORME DE ANÁLISIS DE PISCINA           ║');
+  line('║               DANIVIA PISCINAS                 ║');
+  line('╚══════════════════════════════════════════════════╝');
+  line();
+  line(`📅 Fecha de emisión: ${now}`);
+  line('─────────────────────────────────────────────────');
+  line('DATOS DEL CLIENTE');
+  line(`  Nombre:     ${client.name}`);
+  line(`  Email:      ${client.email}`);
+  if(client.phone)   line(`  Teléfono:   ${client.phone}`);
+  if(client.address) line(`  Dirección:  ${client.address}`);
+  line(`  Piscina:    ${client.type}${client.volume?' · '+client.volume+' m³':''}`);
+  line('─────────────────────────────────────────────────');
+
+  measures.forEach((m,i)=>{
+    const d=new Date(m.date).toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    line(); line(`📊 MEDICIÓN ${i+1} — ${d}`);
+    line(`   Aspecto del agua: ${m.look}`); line();
+    const rows=[
+      ['pH',             m.ph,   '',    7.2,7.6],
+      ['Cloro Libre',    m.cl,  'ppm', 1.0,3.0],
+      ['Cloro Total',    m.ct,  'ppm', 1.0,3.0],
+      ['Alcalinidad',    m.alk, 'ppm', 80,120],
+      ['Dureza Cálcica', m.hard,'ppm', 200,400],
+      ['Estabilizador',  m.cya, 'ppm', 30,50],
+      ['Temperatura',    m.temp,'°C',  24,30],
+    ];
+    if(m.salt) rows.push(['Sal',m.salt,'ppm',3000,4000]);
+    rows.forEach(([lbl,val,unit,oMin,oMax])=>{
+      if(val===''||val===undefined||val===null) return;
+      const v=parseFloat(val);
+      const st=v>=oMin&&v<=oMax?'✅':v>=(oMin*0.85)&&v<=(oMax*1.15)?'⚠️':'❌';
+      const range=`[${oMin}–${oMax}${unit?unit:''}]`;
+      line('   '+`${lbl.padEnd(18)} ${String(val+' '+unit).padEnd(12)} ${range.padEnd(16)} ${st}`);
+    });
+    if(m.notes){ line(); line(`   📝 Notas: ${m.notes}`); }
+    line('   ─────────────────────────────────────────────');
+  });
+
+  const last=measures[0];
+  const recs=[];
+  if(last.ph<7.2)  recs.push('• pH bajo → Añadir Incrementador de pH');
+  if(last.ph>7.6)  recs.push('• pH alto → Añadir Reductor de pH');
+  if(last.cl<1)    recs.push('• Cloro libre bajo → Aplicar cloro choque');
+  if(last.cl>3)    recs.push('• Cloro libre alto → Reducir dosificación');
+  if(last.alk<80)  recs.push('• Alcalinidad baja → Añadir Bicarbonato sódico');
+  if(last.alk>120) recs.push('• Alcalinidad alta → Añadir Reductor de pH con aireación');
+  if(last.temp>30) recs.push('• Temperatura elevada → Aumentar frecuencia de análisis');
+
+  if(recs.length){ line(); line('RECOMENDACIONES'); recs.forEach(r=>line(r)); }
+  if(note.trim()){ line(); line('─────────────────────────────────────────────────'); line('OBSERVACIONES ADICIONALES'); line(note.trim()); }
+  line(); line('─────────────────────────────────────────────────');
+  line('  DANIVIA PISCINAS · Gestión Profesional de Piscinas');
+  line('═════════════════════════════════════════════════');
+
+  prev.textContent=lines.join('\n');
+};
+
+window.sendEmail = function(){
+  const cid=document.getElementById('reportClient').value;
+  if(!cid){ notify('Selecciona un cliente primero','error'); return; }
+  const client=state.clients.find(c=>c.id===cid);
+  if(!client) return;
+  const body=encodeURIComponent(document.getElementById('reportPreview').textContent);
+  const subject=encodeURIComponent(`Informe Análisis Piscina — ${client.name}`);
+  window.open(`mailto:${client.email}?subject=${subject}&body=${body}`);
+  notify('Abriendo cliente de correo... 📧');
+};
+
+window.copyReport = function(){
+  const text=document.getElementById('reportPreview').textContent;
+  if(!text||text.includes('Selecciona')){ notify('Genera el informe primero','error'); return; }
+  navigator.clipboard.writeText(text).then(()=>notify('Informe copiado al portapapeles 📋')).catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); notify('Informe copiado 📋');
+  });
+};
+
+window.printReport = function(){
+  const text=document.getElementById('reportPreview').textContent;
+  if(!text||text.includes('Selecciona')){ notify('Genera el informe primero','error'); return; }
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>Informe Piscina</title>
+  <style>body{font-family:monospace;white-space:pre;padding:30px;font-size:13px;line-height:1.6}</style>
+  </head><body>${text.replace(/</g,'&lt;')}</body></html>`);
+  w.document.close(); w.print();
+};
+
+// ============================================================
+//  INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  const dtEl=document.getElementById('mDate');
+  if(dtEl) dtEl.value=now.toISOString().slice(0,16);
+});
+</script>
+</body>
+</html>
